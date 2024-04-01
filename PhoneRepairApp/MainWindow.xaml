@@ -1,0 +1,18 @@
+﻿<Window x:Class="PhoneRepairApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ремонт Телефонов"  Height="450" Width="800">
+    <Grid>
+        <TabControl SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="Специалисты">
+                <Frame x:Name="SpecialistsFrame" Source="SpecialistsForm.xaml"/>
+            </TabItem>
+            <TabItem Header="Модели телефонов">
+                <Frame x:Name="PhoneModelsFrame" Source="PhoneModelsForm.xaml"/>
+            </TabItem>
+            <TabItem Header="Заказы на ремонт">
+                <Frame x:Name="RepairOrdersFrame" Source="RepairOrdersForm.xaml"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

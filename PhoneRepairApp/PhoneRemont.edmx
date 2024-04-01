@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище RemontPhoneModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="phone_models">
+          <Key>
+            <PropertyRef Name="model_id" />
+          </Key>
+          <Property Name="model_id" Type="int" Nullable="false" />
+          <Property Name="brand" Type="varchar" MaxLength="50" />
+          <Property Name="model_name" Type="varchar" MaxLength="50" />
+          <Property Name="release_year" Type="int" />
+          <Property Name="storage_capacity" Type="varchar" MaxLength="20" />
+          <Property Name="color" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="repair_orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" Nullable="false" />
+          <Property Name="customer_name" Type="varchar" MaxLength="50" />
+          <Property Name="phone_model" Type="varchar" MaxLength="50" />
+          <Property Name="issue_description" Type="text" />
+          <Property Name="repair_cost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="technicians">
+          <Key>
+            <PropertyRef Name="technician_id" />
+          </Key>
+          <Property Name="technician_id" Type="int" Nullable="false" />
+          <Property Name="full_name" Type="varchar" MaxLength="50" />
+          <Property Name="specialization" Type="varchar" MaxLength="50" />
+          <Property Name="experience_years" Type="int" />
+          <Property Name="available_from" Type="time" Precision="7" />
+          <Property Name="available_to" Type="time" Precision="7" />
+        </EntityType>
+        <Association Name="FK_repair_orders_phone_models">
+          <End Role="phone_models" Type="Self.phone_models" Multiplicity="1" />
+          <End Role="repair_orders" Type="Self.repair_orders" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="phone_models">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="repair_orders">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_technicians_phone_models">
+          <End Role="phone_models" Type="Self.phone_models" Multiplicity="1" />
+          <End Role="technicians" Type="Self.technicians" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="phone_models">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="technicians">
+              <PropertyRef Name="technician_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище RemontPhoneModelContainer">
+          <EntitySet Name="phone_models" EntityType="Self.phone_models" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="repair_orders" EntityType="Self.repair_orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="technicians" EntityType="Self.technicians" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_repair_orders_phone_models" Association="Self.FK_repair_orders_phone_models">
+            <End Role="phone_models" EntitySet="phone_models" />
+            <End Role="repair_orders" EntitySet="repair_orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_technicians_phone_models" Association="Self.FK_technicians_phone_models">
+            <End Role="phone_models" EntitySet="phone_models" />
+            <End Role="technicians" EntitySet="technicians" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RemontPhoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="phone_models">
+          <Key>
+            <PropertyRef Name="model_id" />
+          </Key>
+          <Property Name="model_id" Type="Int32" Nullable="false" />
+          <Property Name="brand" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="model_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="release_year" Type="Int32" />
+          <Property Name="storage_capacity" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="color" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="repair_orders" Relationship="Self.FK_repair_orders_phone_models" FromRole="phone_models" ToRole="repair_orders" />
+          <NavigationProperty Name="technicians" Relationship="Self.FK_technicians_phone_models" FromRole="phone_models" ToRole="technicians" />
+        </EntityType>
+        <EntityType Name="repair_orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phone_model" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="issue_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="repair_cost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="phone_models" Relationship="Self.FK_repair_orders_phone_models" FromRole="repair_orders" ToRole="phone_models" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="technicians">
+          <Key>
+            <PropertyRef Name="technician_id" />
+          </Key>
+          <Property Name="technician_id" Type="Int32" Nullable="false" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="specialization" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="experience_years" Type="Int32" />
+          <Property Name="available_from" Type="Time" Precision="7" />
+          <Property Name="available_to" Type="Time" Precision="7" />
+          <NavigationProperty Name="phone_models" Relationship="Self.FK_technicians_phone_models" FromRole="technicians" ToRole="phone_models" />
+        </EntityType>
+        <Association Name="FK_repair_orders_phone_models">
+          <End Role="phone_models" Type="Self.phone_models" Multiplicity="1" />
+          <End Role="repair_orders" Type="Self.repair_orders" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="phone_models">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="repair_orders">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_technicians_phone_models">
+          <End Role="phone_models" Type="Self.phone_models" Multiplicity="1" />
+          <End Role="technicians" Type="Self.technicians" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="phone_models">
+              <PropertyRef Name="model_id" />
+            </Principal>
+            <Dependent Role="technicians">
+              <PropertyRef Name="technician_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RemontPhoneEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="phone_models" EntityType="Self.phone_models" />
+          <EntitySet Name="repair_orders" EntityType="Self.repair_orders" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="technicians" EntityType="Self.technicians" />
+          <AssociationSet Name="FK_repair_orders_phone_models" Association="Self.FK_repair_orders_phone_models">
+            <End Role="phone_models" EntitySet="phone_models" />
+            <End Role="repair_orders" EntitySet="repair_orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_technicians_phone_models" Association="Self.FK_technicians_phone_models">
+            <End Role="phone_models" EntitySet="phone_models" />
+            <End Role="technicians" EntitySet="technicians" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище RemontPhoneModelContainer" CdmEntityContainer="RemontPhoneEntities">
+          <EntitySetMapping Name="phone_models">
+            <EntityTypeMapping TypeName="RemontPhoneModel.phone_models">
+              <MappingFragment StoreEntitySet="phone_models">
+                <ScalarProperty Name="model_id" ColumnName="model_id" />
+                <ScalarProperty Name="brand" ColumnName="brand" />
+                <ScalarProperty Name="model_name" ColumnName="model_name" />
+                <ScalarProperty Name="release_year" ColumnName="release_year" />
+                <ScalarProperty Name="storage_capacity" ColumnName="storage_capacity" />
+                <ScalarProperty Name="color" ColumnName="color" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="repair_orders">
+            <EntityTypeMapping TypeName="RemontPhoneModel.repair_orders">
+              <MappingFragment StoreEntitySet="repair_orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="customer_name" ColumnName="customer_name" />
+                <ScalarProperty Name="phone_model" ColumnName="phone_model" />
+                <ScalarProperty Name="issue_description" ColumnName="issue_description" />
+                <ScalarProperty Name="repair_cost" ColumnName="repair_cost" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="RemontPhoneModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="technicians">
+            <EntityTypeMapping TypeName="RemontPhoneModel.technicians">
+              <MappingFragment StoreEntitySet="technicians">
+                <ScalarProperty Name="technician_id" ColumnName="technician_id" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="specialization" ColumnName="specialization" />
+                <ScalarProperty Name="experience_years" ColumnName="experience_years" />
+                <ScalarProperty Name="available_from" ColumnName="available_from" />
+                <ScalarProperty Name="available_to" ColumnName="available_to" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
